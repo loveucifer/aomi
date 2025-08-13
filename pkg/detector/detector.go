@@ -175,3 +175,4 @@ func isTOML(data []byte) bool {
 	}
 	return false
 }
+// Final implementation
