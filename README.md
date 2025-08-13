@@ -1,7 +1,6 @@
 # Aomi - Universal File Converter
 
 **Repository**: https://github.com/loveucifer/aomi  
-**Timeline**: Daily commits throughout August 2025  
 **Language**: Go  
 **License**: MIT
 

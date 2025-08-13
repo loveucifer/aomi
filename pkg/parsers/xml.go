@@ -41,8 +41,8 @@ func xmlToMap(xmlStr string) interface{} {
 		trimmed = strings.SplitN(trimmed, ">", 2)[1]
 	}
 
-	// For now, return a placeholder structure
-	// A full implementation would properly parse XML
+	// Return raw XML as a fallback structure
+	// Full XML parsing implementation would go here
 	return map[string]interface{}{
 		"_raw_xml": trimmed,
 	}
