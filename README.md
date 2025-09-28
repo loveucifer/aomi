@@ -4,7 +4,7 @@
 **Language**: Go  
 **License**: MIT
 
-Build a powerful command-line tool that converts between any data formats with intelligent schema detection and zero configuration.
+ Command-line tool that converts between any data formats with intelligent schema detection and zero configuration.
 
 ## What Aomi Does
 
