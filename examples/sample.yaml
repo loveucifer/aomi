@@ -1,0 +1,11 @@
+name: "Jane Smith"
+age: 28
+city: "Boston"
+hobbies:
+  - hiking
+  - photography
+  - cooking
+address:
+  street: "456 Oak Ave"
+  zipcode: "67890"
+active: true
