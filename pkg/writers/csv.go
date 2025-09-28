@@ -20,7 +20,9 @@ type CSVWriter struct {
 func (w *CSVWriter) Write(doc *schema.Document) ([]byte, error) {
 	var buf bytes.Buffer
 	writer := csv.NewWriter(&buf)
-	writer.Comma = w.Delimiter
+	if w.Delimiter != 0 {
+		writer.Comma = w.Delimiter
+	} // otherwise use default comma
 
 	// Handle different data types
 	switch data := doc.Data.(type) {
@@ -62,14 +64,15 @@ func (w *CSVWriter) Write(doc *schema.Document) ([]byte, error) {
 		}
 	case map[string]interface{}:
 		// Single object - flatten to single row
+		flatData := converters.FlattenForCSV(data) // Flatten nested structures for CSV compatibility
 		headers := w.Headers
 		if len(headers) == 0 {
-			headers = getMapKeys(data)
+			headers = getMapKeys(flatData) // Get headers from flattened data
 		}
 
 		var row []string
 		for _, header := range headers {
-			value := data[header]
+			value := flatData[header]
 			row = append(row, formatCSVValue(value))
 		}
 

@@ -20,7 +20,7 @@ aomi --format yaml < input.json    # Pipe with format
 ## Features
 
 - **Auto-detection**: Recognizes input format automatically
-- **Smart mapping**: Handles nested structures intelligently  
+- **Smart mapping**: Handles nested structures intelligently (flattens nested objects like address.city to address_city)
 - **Batch processing**: Convert multiple files at once
 - **Schema inference**: Creates optimal output structure
 - **Validation**: Ensures data integrity during conversion
@@ -114,6 +114,40 @@ aomi data.csv data.json
 ]
 ```
 
+### JSON with Nested Objects to CSV
+```bash
+# Input: user.json
+{
+  "name": "John Doe",
+  "age": 35,
+  "address": {
+    "street": "123 Main St",
+    "city": "Anytown", 
+    "zipcode": "12345"
+  },
+  "hobbies": ["reading", "swimming", "coding"]
+}
+
+# Command
+aomi user.json user.csv
+
+# Output: user.csv (nested objects are flattened)
+hobbies,address_city,address_zipcode,address_street,name,age
+"[reading, swimming, coding]",Anytown,12345,"123 Main St",John Doe,35
+```
+
+## Changelog
+
+### v0.1.1
+- Fixed CSV writer delimiter issue where uninitialized delimiter was set to null character, causing empty output
+- Enhanced CSV writer to properly flatten nested JSON objects for CSV conversion
+- Added support for flattening nested structures like {"address": {"city": "NYC"}} to address_city=NYC in CSV output
+
+### v0.1.0
+- Initial release with support for JSON, CSV, YAML, XML, and TOML conversion
+- Automatic format detection
+- Batch processing support
+
 ## Architecture
 
 ```
@@ -149,7 +183,31 @@ aomi/
 ```bash
 git clone https://github.com/loveucifer/aomi.git
 cd aomi
-go build ./cmd/aomi
+go build -o aomi ./cmd/aomi/
+# Or to install globally:
+go install ./cmd/aomi/
+```
+
+### Running Tests
+
+```bash
+# Run all package tests
+go test ./...
+
+# Run specific tests
+go test ./pkg/writers/
+go test ./pkg/parsers/
+```
+
+### Local Development
+
+```bash
+# Build and run directly
+go run ./cmd/aomi/main.go input.json output.csv
+
+# Build the binary
+go build -o aomi ./cmd/aomi/
+./aomi input.json output.csv
 ```
 
 ## License
